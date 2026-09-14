@@ -34,10 +34,6 @@ import { supabase } from "./lib/supabase";
 
 import "./App.css";
 
-/* =========================
-   Protected Route
-========================= */
-
 function ProtectedRoute({ children }) {
   const { loading, isAuthenticated } = useAuth();
 
@@ -59,10 +55,6 @@ function ProtectedRoute({ children }) {
 
   return children;
 }
-
-/* =========================
-   Navbar
-========================= */
 
 function Navbar() {
   const location = useLocation();
@@ -109,6 +101,8 @@ function Navbar() {
   async function logout() {
     try {
       await supabase.auth.signOut();
+    } catch (error) {
+      console.error("Logout error:", error);
     } finally {
       window.location.href = "/";
     }
@@ -118,14 +112,17 @@ function Navbar() {
     <header className="site-navbar">
       <div className="navbar-inner">
 
-        {/* Brand */}
-
         <Link
           to="/"
           className="navbar-brand"
+          aria-label="RTX GAME"
         >
           <div className="navbar-brand-icon">
-            <Gamepad2 size={22} />
+            <img
+              src="/logo.png"
+              alt="RTX GAME"
+              className="navbar-brand-logo"
+            />
           </div>
 
           <div className="navbar-brand-text">
@@ -134,11 +131,9 @@ function Navbar() {
           </div>
         </Link>
 
-        {/* Navigation */}
-
         <nav className="main-nav">
           {visibleItems.map((item) => {
-            const active =
+            const isActive =
               item.to === "/"
                 ? location.pathname === "/"
                 : location.pathname.startsWith(item.to);
@@ -147,16 +142,19 @@ function Navbar() {
               <Link
                 key={item.to}
                 to={item.to}
-                className={`nav-link${active ? " active" : ""}`}
+                className={`nav-link${
+                  isActive ? " active" : ""
+                }`}
               >
-                {item.icon}
+                <span className="nav-link-icon">
+                  {item.icon}
+                </span>
+
                 <span>{item.label}</span>
               </Link>
             );
           })}
         </nav>
-
-        {/* Account */}
 
         <div className="nav-account">
 
@@ -167,7 +165,7 @@ function Navbar() {
                 className="profile-nav-button"
                 title="پروفایل"
               >
-                <UserRound size={18} />
+                <UserRound size={17} />
                 <span>پروفایل</span>
               </Link>
 
@@ -176,6 +174,7 @@ function Navbar() {
                 className="logout-nav-button"
                 onClick={logout}
                 title="خروج"
+                aria-label="خروج"
               >
                 <LogOut size={17} />
               </button>
@@ -205,6 +204,7 @@ function Navbar() {
             rel="noopener noreferrer"
             className="telegram-button"
             title="کانال تلگرام RTX GAME"
+            aria-label="Telegram"
           >
             <Send size={16} />
           </a>
@@ -214,10 +214,6 @@ function Navbar() {
     </header>
   );
 }
-
-/* =========================
-   Coming Soon
-========================= */
 
 function ComingSoon({ title, icon }) {
   return (
@@ -249,22 +245,14 @@ function ComingSoon({ title, icon }) {
   );
 }
 
-/* =========================
-   Routes
-========================= */
-
 function AppRoutes() {
   return (
     <Routes>
-
-      {/* Home */}
 
       <Route
         path="/"
         element={<Home />}
       />
-
-      {/* Authentication */}
 
       <Route
         path="/login"
@@ -276,8 +264,6 @@ function AppRoutes() {
         element={<Register />}
       />
 
-      {/* Profile */}
-
       <Route
         path="/profile"
         element={
@@ -287,35 +273,25 @@ function AppRoutes() {
         }
       />
 
-      {/* Games */}
-
       <Route
         path="/games"
         element={<Games />}
       />
-
-      {/* DNS */}
 
       <Route
         path="/dns"
         element={<DNS />}
       />
 
-      {/* Chat */}
-
       <Route
         path="/chat"
         element={<Chat />}
       />
 
-      {/* Game Settings */}
-
       <Route
         path="/settings"
         element={<Settings />}
       />
-
-      {/* Configs */}
 
       <Route
         path="/configs"
@@ -327,8 +303,6 @@ function AppRoutes() {
         }
       />
 
-      {/* Old Home URL */}
-
       <Route
         path="/home"
         element={
@@ -338,8 +312,6 @@ function AppRoutes() {
           />
         }
       />
-
-      {/* Unknown URL */}
 
       <Route
         path="*"
@@ -355,55 +327,56 @@ function AppRoutes() {
   );
 }
 
-/* =========================
-   App
-========================= */
-
 export default function App() {
   return (
     <BrowserRouter>
+      <div className="app-shell">
 
-      <Navbar />
+        <Navbar />
 
-      <AppRoutes />
-
-      <footer
-        className="site-footer"
-        dir="rtl"
-      >
-        <div className="footer-inner">
-
-          <div className="footer-brand">
-
-            <div className="footer-brand-icon">
-              <Gamepad2 size={19} />
-            </div>
-
-            <div>
-              <strong>RTX GAME</strong>
-              <span>GAMING COMMUNITY</span>
-            </div>
-
-          </div>
-
-          <div className="footer-copy">
-            تمامی حقوق برای RTX GAME محفوظ است.
-          </div>
-
-          <a
-            href="https://t.me/RTX_GAME_ir"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="footer-telegram"
-          >
-            <Send size={15} />
-            Telegram
-          </a>
-
+        <div className="page-content">
+          <AppRoutes />
         </div>
-      </footer>
 
+        <footer
+          className="site-footer"
+          dir="rtl"
+        >
+          <div className="footer-inner">
+
+            <div className="footer-brand">
+              <div className="footer-brand-icon">
+                <img
+                  src="/logo.png"
+                  alt="RTX GAME"
+                  className="footer-logo"
+                />
+              </div>
+
+              <div className="footer-brand-text">
+                <strong>RTX GAME</strong>
+                <span>GAMING COMMUNITY</span>
+              </div>
+            </div>
+
+            <div className="footer-copy">
+              تمامی حقوق برای RTX GAME محفوظ است.
+            </div>
+
+            <a
+              href="https://t.me/RTX_GAME_ir"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-telegram"
+            >
+              <Send size={15} />
+              Telegram
+            </a>
+
+          </div>
+        </footer>
+
+      </div>
     </BrowserRouter>
   );
 }
-

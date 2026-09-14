@@ -1,29 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&display=swap");
 
-html,
-body,
-button,
-input,
-textarea,
-select {
-  font-family: "Vazirmatn", Tahoma, Arial, sans-serif;
-}
+:root {
+  font-family:
+    "Vazirmatn",
+    Tahoma,
+    Arial,
+    sans-serif;
 
-* {
-  box-sizing: border-box;
+  color: #ffffff;
+  background: #090a0d;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 html {
+  min-width: 320px;
+  min-height: 100%;
+
   direction: rtl;
-  background: #08090b;
+
+  background: #090a0d;
+
   scroll-behavior: smooth;
 }
 
 body {
   margin: 0;
+
   min-width: 320px;
   min-height: 100vh;
-  background: #08090b;
+
+  background:
+    #090a0d;
+
+  color: #ffffff;
+
+  font-family:
+    "Vazirmatn",
+    Tahoma,
+    Arial,
+    sans-serif;
 }
 
 button,
@@ -33,13 +52,24 @@ select {
   font: inherit;
 }
 
+button {
+  font-family: inherit;
+}
+
 a {
   color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  max-width: 100%;
 }
 
 ::selection {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  background:
+    rgba(255, 55, 55, 0.25);
+
+  color: #ffffff;
 }
 
 ::-webkit-scrollbar {
@@ -47,14 +77,17 @@ a {
 }
 
 ::-webkit-scrollbar-track {
-  background: #08090b;
+  background: #090a0d;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.16);
-  border-radius: 99px;
+  background:
+    rgba(255, 255, 255, 0.14);
+
+  border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.28);
+  background:
+    rgba(255, 80, 80, 0.35);
 }
