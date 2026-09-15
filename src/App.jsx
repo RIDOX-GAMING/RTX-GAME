@@ -28,6 +28,7 @@ import Chat from "./pages/Chat";
 import DNS from "./pages/DNS";
 import Games from "./pages/Games";
 import Settings from "./pages/Settings";
+import Configs from "./pages/Configs";
 
 import { useAuth } from "./hooks/useAuth";
 import { supabase } from "./lib/supabase";
@@ -157,13 +158,11 @@ function Navbar() {
         </nav>
 
         <div className="nav-account">
-
           {!loading && user ? (
             <>
               <Link
                 to="/profile"
                 className="profile-nav-button"
-                title="پروفایل"
               >
                 <UserRound size={17} />
                 <span>پروفایل</span>
@@ -174,7 +173,6 @@ function Navbar() {
                 className="logout-nav-button"
                 onClick={logout}
                 title="خروج"
-                aria-label="خروج"
               >
                 <LogOut size={17} />
               </button>
@@ -204,51 +202,18 @@ function Navbar() {
             rel="noopener noreferrer"
             className="telegram-button"
             title="کانال تلگرام RTX GAME"
-            aria-label="Telegram"
           >
             <Send size={16} />
           </a>
-
         </div>
       </div>
     </header>
   );
 }
 
-function ComingSoon({ title, icon }) {
-  return (
-    <main
-      className="coming-soon-page"
-      dir="rtl"
-    >
-      <div className="coming-soon-card">
-
-        <div className="coming-soon-icon">
-          {icon || <Package size={40} />}
-        </div>
-
-        <span>RTX GAME</span>
-
-        <h1>{title}</h1>
-
-        <p>
-          این بخش به‌زودی در RTX GAME فعال می‌شود.
-        </p>
-
-        <Link to="/">
-          <HomeIcon size={17} />
-          بازگشت به خانه
-        </Link>
-
-      </div>
-    </main>
-  );
-}
-
 function AppRoutes() {
   return (
     <Routes>
-
       <Route
         path="/"
         element={<Home />}
@@ -296,10 +261,9 @@ function AppRoutes() {
       <Route
         path="/configs"
         element={
-          <ComingSoon
-            title="Free Configs"
-            icon={<Package size={40} />}
-          />
+          <ProtectedRoute>
+            <Configs />
+          </ProtectedRoute>
         }
       />
 
@@ -322,7 +286,6 @@ function AppRoutes() {
           />
         }
       />
-
     </Routes>
   );
 }
@@ -331,7 +294,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="app-shell">
-
         <Navbar />
 
         <div className="page-content">
@@ -372,10 +334,8 @@ export default function App() {
               <Send size={15} />
               Telegram
             </a>
-
           </div>
         </footer>
-
       </div>
     </BrowserRouter>
   );

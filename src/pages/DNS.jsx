@@ -1,139 +1,62 @@
-import {
-  Check,
-  Copy,
-  Globe,
-  ShieldCheck,
-  Zap,
-  Wifi,
-  Activity,
-} from "lucide-react";
 import { useState } from "react";
+import {
+  Copy,
+  Check,
+  Globe,
+  Server,
+} from "lucide-react";
 
 import "./DNS.css";
 
-const dnsList = [
+const dnsServers = [
   {
-    name: "Cloudflare",
-    subtitle: "DNS سریع و امن",
-    primary: "1.1.1.1",
-    secondary: "1.0.0.1",
-    badge: "پیشنهادی",
-    accent: "cloudflare",
+    id: "vanilla",
+    name: "Vanilla",
+    description:
+      "DNS Vanilla برای استفاده عمومی و اتصال پایدار.",
+    primary: "194.146.68.68",
+    secondary: "194.146.68.66",
   },
   {
-    name: "Google DNS",
-    subtitle: "Google Public DNS",
-    primary: "8.8.8.8",
-    secondary: "8.8.4.4",
-    badge: "پایدار",
-    accent: "google",
+    id: "uae",
+    name: "UAE",
+    description:
+      "DNS سرورهای UAE برای تست مسیرهای مختلف اتصال.",
+    primary: "2.10.148.72",
+    secondary: "2.50.155.186",
   },
 ];
 
-function DnsCard({ dns }) {
+export default function DNS() {
   const [copied, setCopied] = useState("");
 
-  async function copyDns(value) {
+  async function copyDNS(value, id) {
     try {
       await navigator.clipboard.writeText(value);
 
-      setCopied(value);
+      setCopied(id);
 
       setTimeout(() => {
         setCopied("");
-      }, 1600);
+      }, 1800);
     } catch (error) {
-      console.error("Copy failed:", error);
+      console.error(
+        "DNS copy error:",
+        error
+      );
     }
   }
 
   return (
-    <article className={`dns-card ${dns.accent}`}>
-      <div className="dns-card-line" />
-
-      <div className="dns-card-top">
-        <div className="dns-icon">
-          <Globe size={23} />
-        </div>
-
-        <div className="dns-title">
-          <h2>{dns.name}</h2>
-          <p>{dns.subtitle}</p>
-        </div>
-
-        <span className="dns-badge">
-          {dns.badge}
-        </span>
-      </div>
-
-      <div className="dns-status">
-        <span className="dns-status-dot" />
-        آماده استفاده
-      </div>
-
-      <div className="dns-addresses">
-        <div className="dns-address">
-          <div className="dns-address-info">
-            <span>DNS اصلی</span>
-            <strong>{dns.primary}</strong>
-          </div>
-
-          <button
-            type="button"
-            className={copied === dns.primary ? "copied" : ""}
-            onClick={() => copyDns(dns.primary)}
-            aria-label={`کپی ${dns.primary}`}
-          >
-            {copied === dns.primary ? (
-              <Check size={17} />
-            ) : (
-              <Copy size={17} />
-            )}
-
-            <span>
-              {copied === dns.primary ? "کپی شد" : "کپی"}
-            </span>
-          </button>
-        </div>
-
-        <div className="dns-address">
-          <div className="dns-address-info">
-            <span>DNS ثانویه</span>
-            <strong>{dns.secondary}</strong>
-          </div>
-
-          <button
-            type="button"
-            className={copied === dns.secondary ? "copied" : ""}
-            onClick={() => copyDns(dns.secondary)}
-            aria-label={`کپی ${dns.secondary}`}
-          >
-            {copied === dns.secondary ? (
-              <Check size={17} />
-            ) : (
-              <Copy size={17} />
-            )}
-
-            <span>
-              {copied === dns.secondary ? "کپی شد" : "کپی"}
-            </span>
-          </button>
-        </div>
-      </div>
-    </article>
-  );
-}
-
-export default function DNS() {
-  return (
-    <main className="dns-page" dir="rtl">
+    <main
+      className="dns-page"
+      dir="rtl"
+    >
       <div className="dns-background" />
-      <div className="dns-glow dns-glow-one" />
-      <div className="dns-glow dns-glow-two" />
 
       <section className="dns-hero">
         <div className="dns-hero-icon">
-          <Globe size={40} />
+          <Globe size={34} />
         </div>
 
         <span className="dns-label">
@@ -141,81 +64,141 @@ export default function DNS() {
         </span>
 
         <h1>
-          DNS مخصوص
-          <span> گیمرها</span>
+          DNSهای پیشنهادی
         </h1>
 
         <p>
-          DNSهای شناخته‌شده و عمومی برای اتصال
-          پایدارتر و تجربه بهتر در اینترنت.
+          سرورهای DNS را امتحان کن و بر اساس
+          کیفیت اتصال و مسیر شبکه خودت بهترین
+          گزینه را انتخاب کن.
         </p>
-
-        <div className="dns-hero-stats">
-          <div>
-            <Wifi size={15} />
-            <span>اتصال پایدار</span>
-          </div>
-
-          <div>
-            <ShieldCheck size={15} />
-            <span>امنیت بهتر</span>
-          </div>
-
-          <div>
-            <Activity size={15} />
-            <span>بررسی سریع</span>
-          </div>
-        </div>
       </section>
 
-      <section className="dns-grid">
-        {dnsList.map((dns) => (
-          <DnsCard
-            key={dns.name}
-            dns={dns}
-          />
-        ))}
+      <section className="dns-list">
+        {dnsServers.map((dns) => (
+          <article
+            className="dns-card"
+            key={dns.id}
+          >
+            <div className="dns-card-header">
+              <div className="dns-card-icon">
+                <Server size={22} />
+              </div>
 
-        <article className="dns-coming">
-          <div className="dns-coming-icon">
-            <Zap size={24} />
-          </div>
+              <div>
+                <span>RTX GAME DNS</span>
+                <h2>{dns.name}</h2>
+              </div>
+            </div>
 
-          <div className="dns-coming-content">
-            <span>COMING SOON</span>
-
-            <h2>
-              DNSهای بیشتر در راه هستند
-            </h2>
-
-            <p>
-              سرویس‌های DNS بیشتری در آینده
-              به RTX GAME اضافه خواهند شد.
+            <p className="dns-description">
+              {dns.description}
             </p>
-          </div>
 
-          <div className="dns-coming-pulse" />
-        </article>
+            <div className="dns-values">
+              <DNSValue
+                label="Primary"
+                value={dns.primary}
+                copied={
+                  copied ===
+                  `${dns.id}-primary`
+                }
+                onCopy={() =>
+                  copyDNS(
+                    dns.primary,
+                    `${dns.id}-primary`
+                  )
+                }
+              />
+
+              <DNSValue
+                label="Secondary"
+                value={dns.secondary}
+                copied={
+                  copied ===
+                  `${dns.id}-secondary`
+                }
+                onCopy={() =>
+                  copyDNS(
+                    dns.secondary,
+                    `${dns.id}-secondary`
+                  )
+                }
+              />
+            </div>
+          </article>
+        ))}
       </section>
 
-      <section className="dns-info">
-        <div className="dns-info-icon">
-          <ShieldCheck size={23} />
-        </div>
+      <section className="dns-note">
+        <Globe size={18} />
 
         <div>
-          <h3>
-            یک نکته مهم درباره DNS
-          </h3>
+          <strong>
+            نکته مهم
+          </strong>
 
           <p>
-            تغییر DNS همیشه باعث کاهش پینگ نمی‌شود.
-            عملکرد DNS به سرویس‌دهنده اینترنت،
-            موقعیت جغرافیایی و مسیر اتصال شما بستگی دارد.
+            تغییر DNS تضمین نمی‌کند که Ping
+            همیشه کمتر شود. بهترین گزینه برای
+            هر کاربر به ISP، موقعیت و مسیر شبکه
+            بستگی دارد.
           </p>
         </div>
+      </section>
+
+      <section className="dns-more">
+        <span>
+          RTX GAME / MORE
+        </span>
+
+        <h2>
+          DNSهای بیشتر به‌زودی
+        </h2>
+
+        <p>
+          سرورهای بیشتری در آپدیت‌های بعدی
+          اضافه خواهند شد.
+        </p>
       </section>
     </main>
   );
 }
 
+function DNSValue({
+  label,
+  value,
+  copied,
+  onCopy,
+}) {
+  return (
+    <div className="dns-value">
+      <span>{label}</span>
+
+      <div>
+        <code>{value}</code>
+
+        <button
+          type="button"
+          onClick={onCopy}
+          title={
+            copied
+              ? "کپی شد"
+              : "کپی"
+          }
+          aria-label={
+            copied
+              ? "کپی شد"
+              : `کپی ${value}`
+          }
+        >
+          {copied ? (
+            <Check size={16} />
+          ) : (
+            <Copy size={16} />
+          )}
+        </button>
+      </div>
+    </div>
+  );
+}
